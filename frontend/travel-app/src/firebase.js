@@ -1,13 +1,13 @@
 import { initializeApp } from "firebase/app";
 
-// TODO: Replace the following with your app's Firebase project configuration
+// Initialize Firebase using environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyAWxyNHi-fWnh5e0fH9hwdwNl1vAuaWS5A",
-  authDomain: "travel-app-4d1cc.firebaseapp.com",
-  projectId: "travel-app-4d1cc",
-  storageBucket: "travel-app-4d1cc.firebasestorage.app",
-  messagingSenderId: "393240781890",
-  appId: "1:393240781890:web:b2b0edd909134f5fe439db",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase

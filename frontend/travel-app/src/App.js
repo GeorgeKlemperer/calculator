@@ -1,29 +1,31 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import Login from './components/Login';
 import TripList from './components/TripList';
 import TripDashboard from './components/TripDashboard';
 import TripEdit from './components/TripEdit';
-import { AppProvider } from './context/AppContext';
+import { AppProvider, AppContext } from './context/AppContext';
+import { Button } from 'react-bootstrap';
 
 function Home() {
+  const { user, logout } = useContext(AppContext);
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {user ? (
+          <>
+            <p>Welcome, {user.name}!</p>
+            <Button variant="danger" onClick={logout} data-testid="logout-button">
+              Logout
+            </Button>
+          </>
+        ) : (
+          <p>Please log in to manage your trips.</p>
+        )}
       </header>
     </div>
   );
@@ -39,6 +41,12 @@ function About() {
   );
 }
 
+// Protected Route Component
+const PrivateRoute = ({ children }) => {
+  const { user } = useContext(AppContext);
+  return user ? children : <Navigate to="/login" />;
+};
+
 function App() {
   return (
     <AppProvider>
@@ -53,9 +61,30 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/trips" element={<TripList />} />
-          <Route path="/trips/:id" element={<TripDashboard />} />
-          <Route path="/trips/:id/edit" element={<TripEdit />} />
+          <Route
+            path="/trips"
+            element={
+              <PrivateRoute>
+                <TripList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/trips/:id"
+            element={
+              <PrivateRoute>
+                <TripDashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/trips/:id/edit"
+            element={
+              <PrivateRoute>
+                <TripEdit />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </Router>
     </AppProvider>
