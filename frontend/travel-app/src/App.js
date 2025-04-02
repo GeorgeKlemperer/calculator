@@ -6,6 +6,7 @@ import Login from './components/Login';
 import TripList from './components/TripList';
 import TripDashboard from './components/TripDashboard';
 import TripEdit from './components/TripEdit';
+import { AppProvider } from './context/AppContext';
 
 function Home() {
   return (
@@ -40,22 +41,24 @@ function About() {
 
 function App() {
   return (
-    <Router>
-      <nav style={{ padding: '10px', background: '#f0f0f0' }}>
-        <Link to="/" style={{ marginRight: '10px' }}>Home</Link>
-        <Link to="/about" style={{ marginRight: '10px' }}>About</Link>
-        <Link to="/login" style={{ marginRight: '10px' }}>Login</Link>
-        <Link to="/trips">Trips</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/trips" element={<TripList />} />
-        <Route path="/trips/:id" element={<TripDashboard />} />
-        <Route path="/trips/:id/edit" element={<TripEdit />} />
-      </Routes>
-    </Router>
+    <AppProvider>
+      <Router>
+        <nav style={{ padding: '10px', background: '#f0f0f0' }}>
+          <Link to="/" style={{ marginRight: '10px' }}>Home</Link>
+          <Link to="/about" style={{ marginRight: '10px' }}>About</Link>
+          <Link to="/login" style={{ marginRight: '10px' }}>Login</Link>
+          <Link to="/trips">Trips</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/trips" element={<TripList />} />
+          <Route path="/trips/:id" element={<TripDashboard />} />
+          <Route path="/trips/:id/edit" element={<TripEdit />} />
+        </Routes>
+      </Router>
+    </AppProvider>
   );
 }
 
